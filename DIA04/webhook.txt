@@ -1,0 +1,1 @@
+https://support.smrtbeat.com/hc/en-us/articles/206429576-How-do-I-get-the-Webhook-URL-to-use-for-Slack-notifications-

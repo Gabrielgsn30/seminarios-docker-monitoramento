@@ -1,0 +1,70 @@
+groups:
+  - name: DemoAlerts
+    rules:
+      - alert: InstanceDown 
+        expr: up < 1 
+        for: 1m
+        labels:
+          severity: low
+        annotations:
+          summary: 'Alert with low severity.'
+
+      - alert: InstanceDownCritical
+        expr: up < 1 
+        for: 1m 
+        labels:
+          severity: high
+        annotations:
+          summary: 'Alert with high severity.'
+
+      - alert: node_power_supply_capacity_warning
+        expr: node_power_supply_capacity{power_supply="BAT0"} < 99
+        for: 1m 
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Alert with high severity.'
+
+      - alert: node_power_supply_capacity_critical
+        expr: node_power_supply_capacity{power_supply="BAT0"} < 95
+        for: 1m 
+        labels:
+          severity: criticial
+        annotations:
+          summary: 'Alert with high severity.'
+
+      - alert: node_cpu_usage_warning
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 80
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: Node CPU usage warning (instance {{ $labels.instance }})
+          description: "CPU usage is > 80%\n  VALUE = {{ humanize $value }}\n  LABELS = {{ $labels }}"
+      - alert: node_cpu_usage_high
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 95
+        for: 0m
+        labels:
+          severity: high
+        annotations:
+          summary: Node CPU usage high (instance {{ $labels.instance }})
+          description: "CPU usage is > 95%\n  VALUE = {{ humanize $value }}\n  LABELS = {{ $labels }}"
+
+      - alert: node_high_cpu_load
+        expr: node_load1 / (count without (cpu, mode) (node_cpu_seconds_total{mode="system"})) >= 1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU load (instance {{ $labels.instance }})"
+          description: "CPU load average (1m) is high\n  VALUE = {{ humanize $value }}\n  LABELS: {{ $labels }}"  
+
+
+      - alert: node_high_cpu_load
+        expr: node_load15 / (count without (cpu, mode) (node_cpu_seconds_total{mode="system"})) >= 1
+        for: 10m
+        labels:
+          severity: high
+        annotations:
+          summary: "CPU load (instance {{ $labels.instance }})"
+          description: "CPU load average (15m) is high\n  VALUE = {{ humanize $value }}\n  LABELS: {{ $labels }}" 

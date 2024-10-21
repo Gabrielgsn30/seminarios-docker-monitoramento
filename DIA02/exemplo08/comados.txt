@@ -1,0 +1,2 @@
+docker build -t exemplo08 .
+docker run -it exemplo08

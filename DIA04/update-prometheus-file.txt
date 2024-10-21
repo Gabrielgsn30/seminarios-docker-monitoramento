@@ -1,0 +1,5 @@
+  - job_name: docker
+    metrics_path: /metrics
+    static_configs:
+      - targets: 
+        - '172.22.0.1:9323'
