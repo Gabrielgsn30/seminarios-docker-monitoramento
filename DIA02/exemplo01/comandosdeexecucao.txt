@@ -1,2 +1,2 @@
-docker build .
+docker build -t exemplo01 .
 docker run -it  openjdk

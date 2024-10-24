@@ -1,0 +1,42 @@
+groups:
+  - name: DemoAlerts
+    rules:
+      - alert: InstanceDown 
+        expr: up{job="services"} < 1 
+        for: 1m
+        labels:
+          severity: low
+        annotations:
+          summary: 'Alert with low severity.'
+
+      - alert: InstanceDownCritical
+        expr: up{job="services"} < 1 
+        for: 1m 
+        labels:
+          severity: high
+        annotations:
+          summary: 'Alert with high severity.'
+
+      - alert: node_power_supply_capacity_warning
+        expr: node_power_supply_capacity < 99
+        for: 1m 
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Alert with high severity.'
+
+      - alert: node_power_supply_capacity_critical
+        expr: node_power_supply_capacity < 95
+        for: 1m 
+        labels:
+          severity: criticial
+        annotations:
+          summary: 'Alert with high severity.'
+
+      - alert: uso_de_memoria_ram
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 10
+        for: 1m
+        labels:
+          severity: low
+        annotations:
+          summary: 'Alerta indica consumo de memoria ram acima de 10%'

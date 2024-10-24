@@ -32,7 +32,7 @@ docker run -it -v //caminho da pasta:/etc/teste ubuntu
 ou realmente criando um volume docker
 
 docker volume create teste
-docker run -id -v teste:/teste ubuntu /bin/bash
+docker run -it -v teste:/teste ubuntu /bin/bash
 
 Portas:
 usando portas com containers, exemplo simples
