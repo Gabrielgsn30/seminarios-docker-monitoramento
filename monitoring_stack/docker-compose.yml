@@ -35,6 +35,10 @@ services:
     restart: unless-stopped
     ports:
       - "9100:9100"
+  fast-api:
+    image: nascimentogabriel/fast-api
+    ports:
+      - "8007:8000"
 
 volumes:
   prometheus-data:

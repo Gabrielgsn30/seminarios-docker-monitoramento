@@ -29,14 +29,38 @@ groups:
         expr: node_power_supply_capacity < 95
         for: 1m 
         labels:
-          severity: criticial
+          severity: critical
         annotations:
           summary: 'Alert with high severity.'
 
-      - alert: uso_de_memoria_ram
+      - alert: uso_de_memoria_ram_low
         expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 10
         for: 1m
         labels:
           severity: low
+        annotations:
+          summary: 'Alerta indica consumo de memoria ram acima de 10%'
+
+      - alert: uso_de_memoria_ram_warning
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 10
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Alerta indica consumo de memoria ram acima de 10%'
+
+      - alert: uso_de_memoria_ram_high
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 10
+        for: 1m
+        labels:
+          severity: high
+        annotations:
+          summary: 'Alerta indica consumo de memoria ram acima de 10%'
+
+      - alert: uso_de_memoria_ram_critical
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 10
+        for: 1m
+        labels:
+          severity: critical
         annotations:
           summary: 'Alerta indica consumo de memoria ram acima de 10%'
