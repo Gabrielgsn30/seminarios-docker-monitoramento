@@ -4,7 +4,7 @@
 global:
   # The smarthost and SMTP sender used for mail notifications.
   #  resolve_timeout: 1m
-  slack_api_url: 'https://hooks.slack.com/services/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'  
+  slack_api_url: 'https://hooks.slack.com/services/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'  
 
 # The directory from which notification templates are read.
 templates: 
@@ -62,7 +62,7 @@ inhibit_rules:
 receivers:
 - name: 'monitoramento-alertas'
   slack_configs:
-  - channel: '#nao-criticos'
+  - channel: '#alertas-nao-criticos'
     send_resolved: true
     icon_url: https://avatars3.githubusercontent.com/u/3380462
     title: |-
@@ -90,8 +90,8 @@ receivers:
 
 - name: 'monitoramento-criticos'
   slack_configs:
-  - api_url: 'https://hooks.slack.com/services/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'
-    channel: '#criticos'
+  - api_url: 'https://hooks.slack.com/services/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'
+    channel: '#alertas-criticos'
     send_resolved: true
     icon_url: https://avatars3.githubusercontent.com/u/3380462
     title: |-
