@@ -1,55 +1,22 @@
-# Sample configuration.
-# See https://prometheus.io/docs/alerting/configuration/ for documentation.
 
 global:
-  # The smarthost and SMTP sender used for mail notifications.
-  #  resolve_timeout: 1m
-  slack_api_url: 'https://hooks.slack.com/services/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'  
+  slack_api_url: 'https://hooks.slack.com/services/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'  
 
-# The directory from which notification templates are read.
+
 templates: 
 - '/etc/prometheus/alertmanager_templates/*.tmpl'
 
-# The root route on which each incoming alert enters.
 route:
-  # The labels by which incoming alerts are grouped together. For example,
-  # multiple alerts coming in for cluster=A and alertname=LatencyHigh would
-  # be batched into a single group.
   group_by: ['alertname', 'cluster', 'service','instance']
-
-  # When a new group of alerts is created by an incoming alert, wait at
-  # least 'group_wait' to send the initial notification.
-  # This way ensures that you get multiple alerts for the same group that start
-  # firing shortly after another are batched together on the first 
-  # notification.
   group_wait: 30s
-
-  # When the first notification was sent, wait 'group_interval' to send a batch
-  # of new alerts that started firing for that group.
   group_interval: 5m
-
-  # If an alert has successfully been sent, wait 'repeat_interval' to
-  # resend them.
   repeat_interval: 2h 
-
-  # A default receiver
   receiver: 'monitoramento-alertas'
-
-  # The child route trees.
   routes:
- # - matchers:
- #   - severity=~"critical"
- #   receiver: 'gmail-notifications'
- #   continue: true
-
   - matchers:
     - severity=~"critical|high"
     receiver: 'monitoramento-criticos'
 
-# Inhibition rules allow to mute a set of alerts given that another alert is
-# firing.
-# We use this to mute any warning-level notifications if the same alert is 
-# already critical.
 inhibit_rules:
 - source_match:
     severity: 'critical'
@@ -57,7 +24,6 @@ inhibit_rules:
     severity: 'warning'
   # Apply inhibition if the alertname is the same.
   equal: ['alertname', 'cluster', 'service']
-
 
 receivers:
 - name: 'monitoramento-alertas'
@@ -90,7 +56,7 @@ receivers:
 
 - name: 'monitoramento-criticos'
   slack_configs:
-  - api_url: 'https://hooks.slack.com/services/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'
+  - api_url: 'https://hooks.slack.com/services/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'
     channel: '#alertas-criticos'
     send_resolved: true
     icon_url: https://avatars3.githubusercontent.com/u/3380462
@@ -116,4 +82,3 @@ receivers:
        {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
        {{ end }}
      {{ end }}
-

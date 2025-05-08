@@ -64,3 +64,31 @@ groups:
           severity: critical
         annotations:
           summary: 'Alerta indica consumo de memoria ram acima de 10%'
+      - alert: erros_http
+        expr: | 
+                sum by(handler) 
+                (http_requests_total{ status=~"5.*|4.*", handler!="/metrics"}) 
+                / 
+                sum by(handler) 
+                (http_requests_total{handler!="/metrics"}) > 0.05
+        for: 1m
+        labels:
+          severity: low
+        annotations:
+          summary: '5% do total das requisicoes estao com erros'
+#Use **rate()** quando quiser monitorar comportamento ao longo do tempo, como "erros por segundo".
+#Use **increase()** quando quiser saber o total acumulado, como "quantos erros ocorreram em 5 minutos".
+      - alert: erros_http_no tempo
+        expr: |
+                sum by(handler) (
+                rate(http_requests_total{status=~"5.*|4.*", handler!="/metrics"}[5m]))
+                /
+                sum by(handler) (
+                rate(http_requests_total{handler!="/metrics"}[5m])
+                )
+                > 0.05
+        for: 1m
+        labels:
+          severity: low
+        annotations:
+          summary: '5% do total das requisicoes estao com erros'

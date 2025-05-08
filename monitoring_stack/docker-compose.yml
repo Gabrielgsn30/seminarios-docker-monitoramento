@@ -36,7 +36,7 @@ services:
     ports:
       - "9100:9100"
   fast-api:
-    image: nascimentogabriel/fast-api
+    image: nascimentogabriel/fast-api:latest
     ports:
       - "8007:8000"
 

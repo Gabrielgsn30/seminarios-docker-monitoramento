@@ -1,3 +1,8 @@
 https://github.com/concrete-cristian-trucco/wordpress-mysql-compose
 
 https://imasters.com.br/banco-de-dados/docker-compose-o-que-e-para-que-serve-o-que-come
+
+
+docker tag local-image:tagname new-repo:tagname
+
+docker tag exemplo10:latest nascimentogabriel/exemplo10:latest
