@@ -55,6 +55,23 @@ docker run --rm \
   --vus 10 --duration 2m \
   --out influxdb=http://influxdb:8086/k6
 
+Explicação:
+Parâmetros definidos:
+--vus 10: 10 usuários virtuais simultâneos
+
+--duration 2m: duração de 2 minutos (120 segundos)
+
+sleep(5): cada VU dorme 5 segundos após cada execução
+
+
+O que o script faz por iteração:
+Faz 2 requisições:
+
+1 para /docs
+
+1 para /api/v1/usuarios/
+
+Depois, espera 5 segundos
 
 
 Grafana:
