@@ -1,6 +1,6 @@
 
 global:
-  slack_api_url: 'https://hooks.slack.com/services/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'  
+  slack_api_url: 'https://hooks.slack.com/services/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'
 
 
 templates: 
@@ -28,7 +28,7 @@ inhibit_rules:
 receivers:
 - name: 'monitoramento-alertas'
   slack_configs:
-  - channel: '#alertas-nao-criticos'
+  - channel: '#docker-alerta-nao-critico'
     send_resolved: true
     icon_url: https://avatars3.githubusercontent.com/u/3380462
     title: |-
@@ -56,8 +56,8 @@ receivers:
 
 - name: 'monitoramento-criticos'
   slack_configs:
-  - api_url: 'https://hooks.slack.com/services/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'
-    channel: '#alertas-criticos'
+  - api_url: 'https://hooks.slack.com/services/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'
+    channel: '#docker-alerta-critico'
     send_resolved: true
     icon_url: https://avatars3.githubusercontent.com/u/3380462
     title: |-

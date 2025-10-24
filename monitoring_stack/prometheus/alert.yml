@@ -1,94 +1,45 @@
 groups:
   - name: DemoAlerts
     rules:
-      - alert: InstanceDown 
-        expr: up{job="services"} < 1 
+      - alert: AppFastAPIDown
+        expr: up{job="app"} < 1 
         for: 1m
         labels:
           severity: low
         annotations:
-          summary: 'Alert with low severity.'
+          summary: 'App Fast api está down verificar.'
 
-      - alert: InstanceDownCritical
-        expr: up{job="services"} < 1 
-        for: 1m 
-        labels:
-          severity: high
-        annotations:
-          summary: 'Alert with high severity.'
-
-      - alert: node_power_supply_capacity_warning
-        expr: node_power_supply_capacity < 99
-        for: 1m 
-        labels:
-          severity: warning
-        annotations:
-          summary: 'Alert with high severity.'
-
-      - alert: node_power_supply_capacity_critical
-        expr: node_power_supply_capacity < 95
-        for: 1m 
-        labels:
-          severity: critical
-        annotations:
-          summary: 'Alert with high severity.'
-
-      - alert: uso_de_memoria_ram_low
-        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 10
-        for: 1m
-        labels:
-          severity: low
-        annotations:
-          summary: 'Alerta indica consumo de memoria ram acima de 10%'
-
-      - alert: uso_de_memoria_ram_warning
-        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 10
+      - alert: NodeExporterDown
+        expr: up{job="node"} < 1 
         for: 1m
         labels:
           severity: warning
         annotations:
-          summary: 'Alerta indica consumo de memoria ram acima de 10%'
+          summary: 'Node Exporter está down verificar.'
 
-      - alert: uso_de_memoria_ram_high
-        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 10
-        for: 1m
-        labels:
-          severity: high
-        annotations:
-          summary: 'Alerta indica consumo de memoria ram acima de 10%'
-
-      - alert: uso_de_memoria_ram_critical
-        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 10
+      - alert: TargetsDown
+        expr: count(up == 0) > 1 
         for: 1m
         labels:
           severity: critical
         annotations:
-          summary: 'Alerta indica consumo de memoria ram acima de 10%'
-      - alert: erros_http
-        expr: | 
-                sum by(handler) 
-                (http_requests_total{ status=~"5.*|4.*", handler!="/metrics"}) 
-                / 
-                sum by(handler) 
-                (http_requests_total{handler!="/metrics"}) > 0.05
+          summary: 'Existem targets down verificar.'
+
+      - alert: TargetsDownNovo
+        expr: count(up == 0) > 1 
         for: 1m
         labels:
-          severity: low
+          severity: critical
         annotations:
-          summary: '5% do total das requisicoes estao com erros'
-#Use **rate()** quando quiser monitorar comportamento ao longo do tempo, como "erros por segundo".
-#Use **increase()** quando quiser saber o total acumulado, como "quantos erros ocorreram em 5 minutos".
-      - alert: erros_http_no tempo
-        expr: |
-                sum by(handler) (
-                rate(http_requests_total{status=~"5.*|4.*", handler!="/metrics"}[5m]))
-                /
-                sum by(handler) (
-                rate(http_requests_total{handler!="/metrics"}[5m])
-                )
-                > 0.05
+          summary: 'Existem targets down verificar.'
+
+      - alert: Uptime
+        expr: (node_time_seconds - node_boot_time_seconds) /60  < 30
         for: 1m
         labels:
-          severity: low
+          severity: high
         annotations:
-          summary: '5% do total das requisicoes estao com erros'
+          summary: 'A maquina reiniciou nos ultimos 30min.'
+
+
+
