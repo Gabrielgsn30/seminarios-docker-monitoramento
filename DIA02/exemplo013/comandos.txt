@@ -1,0 +1,2 @@
+docker build -t meu-site-html-css-js .
+docker run -d -p 8081:80 --name meu-container-rodando meu-site-html-css-js
