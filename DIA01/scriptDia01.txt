@@ -38,5 +38,6 @@ Portas:
 usando portas com containers, exemplo simples
 
 docker run -dp 80:80 docker/getting-started
+------------------------------
 
 
