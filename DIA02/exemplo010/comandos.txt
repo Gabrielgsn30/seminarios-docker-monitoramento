@@ -1,0 +1,2 @@
+docker build -t meu-site-html-css-js .
+docker run -d -p 8086:80 wesley1448773/site-dia-03 
