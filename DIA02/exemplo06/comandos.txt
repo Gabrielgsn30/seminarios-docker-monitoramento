@@ -1,0 +1,28 @@
+
+
+
+docker exec -it exemplo06 psql -U admin -d escola_db
+
+docker run -d \
+  --name meu-banco-escola \
+  -p 5432:5432 \
+  exemplo06
+
+
+  \dt 
+  \d 
+  SELECT * FROM alunos;
+
+
+
+  Exemplo com volumes para não perder dados
+
+
+  docker run -d \
+  --name meu-banco-escola \
+  -p 5432:5432 \
+  -v meu_volume_postgres:/var/lib/postgresql/data \
+  exemplo06
+
+
+  INSERT INTO alunos (nome, curso) VALUES ('Gabriel', 'Docker'),('Paulinho', 'Web');

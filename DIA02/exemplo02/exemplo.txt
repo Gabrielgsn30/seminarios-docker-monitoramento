@@ -1,1 +1,44 @@
 https://linuxhint.com/create_docker_image_from_scratch/
+
+Por que usar e onde isso entra no dia a dia?
+No desenvolvimento moderno, linguagens compiladas como Go (Golang), Rust, C ou C++ conseguem gerar binários estáticos. Isso significa que o programa compilado já traz dentro dele tudo o que precisa para rodar — ele não depende de bibliotecas do sistema operacional (como libc dinâmica, etc.).
+
+Quando você usa FROM scratch:
+
+Tamanho Mínimo (Zero bloatware): Como não há sistema operacional, gerenciador de pacotes (apt, apk), nem logs desnecessários, a sua imagem final pode ter literalmente alguns kilobytes ou poucos megabytes.
+
+Segurança Máxima (Superfície de ataque reduzida): Se um invasor conseguir invadir o seu container, ele não terá um shell (como bash ou sh), não terá comandos como curl, wget, cat ou ls. É um container "cego e mudo", focado exclusivamente em rodar a sua aplicação.
+
+
+Quando não usar o scratch?
+Se a sua aplicação for em Node.js, Python, Ruby ou PHP, você não pode usar scratch, porque essas linguagens exigem o interpretador/runtime instalado no sistema operacional para rodar o código. Nestes casos, usa-se imagens leves como alpine ou slim.
+
+Se o seu programa precisar de ferramentas básicas do sistema operacional (como certificados SSL padrão do sistema, utilitários de rede, etc.). Nota: Para certificados SSL em Go com scratch, por exemplo, você precisaria copiar o arquivo ca-certificates.crt para dentro da imagem junto com o binário.
+
+
+Outro exemplo que pode ser feit, uma app em Golang
+
+Criar o arquivo main.go 
+
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Olá do container ultraleve usando scratch!")
+}
+
+
+# ETAPA 1: Compila o binário
+FROM golang:1.21 AS builder
+WORKDIR /app
+COPY main.go .
+# Compila de forma estática (sem dependências externas)
+RUN CGO_ENABLED=0 go build -o meu-app main.go
+
+# ETAPA 2: Imagem final extremamente leve
+FROM scratch
+# Copia APENAS o binário compilado da etapa anterior
+COPY --from=builder /app/meu-app /meu-app
+# Executa diretamente o binário
+CMD ["/meu-app"]

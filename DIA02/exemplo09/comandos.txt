@@ -1,2 +1,0 @@
-docker build -t meu-site-html .
-docker run -d -p 8080:80 --name meu-container-rodando meu-site-html

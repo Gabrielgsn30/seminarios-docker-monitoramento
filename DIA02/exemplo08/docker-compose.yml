@@ -1,0 +1,17 @@
+services:
+  banco-db:
+    build: ./db
+    container_name: postgres_app_db
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  web-app:
+    build: ./web
+    container_name: node_web_app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - banco-db
+
+volumes:
+  pg_data:

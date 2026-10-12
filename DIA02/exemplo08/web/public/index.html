@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta de Alunos - Docker</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f9; }
+        button { padding: 10px 20px; font-size: 16px; background-color: #0284c7; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #0369a1; }
+        table { margin: 20px auto; border-collapse: collapse; width: 50%; background: white; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #0284c7; color: white; }
+    </style>
+</head>
+<body>
+
+    <h1>🎓 Gestão de Alunos</h1>
+    <p>Clique no botão abaixo para carregar os dados vindos diretamente do PostgreSQL via API Node.js:</p>
+    
+    <button onclick="carregarAlunos()">Carregar Alunos</button>
+
+    <table id="tabela-alunos" style="display: none;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Curso</th>
+            </tr>
+        </thead>
+        <tbody id="corpo-tabela">
+            <!-- Os dados entram aqui via JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        async function carregarAlunos() {
+            try {
+                // Faz a requisição para a nossa API Node.js
+                const resposta = await fetch('/api/alunos');
+                const alunos = await resposta.json();
+
+                const corpoTabela = document.getElementById('corpo-tabela');
+                corpoTabela.innerHTML = ''; // Limpa tabela anterior
+
+                // Preenche a tabela com os dados do banco
+                alunos.forEach(aluno => {
+                    const linha = `<tr>
+                        <td>${aluno.id}</td>
+                        <td>${aluno.nome}</td>
+                        <td>${aluno.curso}</td>
+                    </tr>`;
+                    corpoTabela.innerHTML += linha;
+                });
+
+                // Exibe a tabela na tela
+                document.getElementById('tabela-alunos').style.display = 'table';
+            } catch (erro) {
+                alert('Erro ao carregar os alunos da API!');
+                console.error(erro);
+            }
+        }
+    </script>
+
+</body>
+</html>
