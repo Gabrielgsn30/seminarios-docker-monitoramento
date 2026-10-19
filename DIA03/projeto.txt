@@ -1,0 +1,2 @@
+Vamos utilizar o projeto no github
+https://github.com/Gabrielgsn30/monitoring_stack/tree/inicio
