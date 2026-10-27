@@ -1,13 +1,11 @@
-
-
-
-docker exec -it exemplo06 psql -U admin -d escola_db
+docker build -t exemplo06 .
 
 docker run -d \
   --name meu-banco-escola \
   -p 5432:5432 \
   exemplo06
 
+docker exec -it exemplo06 psql -U admin -d escola_db
 
   \dt 
   \d 
